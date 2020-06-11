@@ -1,5 +1,5 @@
 {
-  "name": "image_share",
+  "name": "my_first_app",
   "private": true,
   "scripts": {
     "start": "meteor run",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.8.3",
-    "jquery": "^1.12.1",
+    "jquery": "^3.4.1",
     "meteor-node-stubs": "^1.0.0"
   },
   "meteor": {

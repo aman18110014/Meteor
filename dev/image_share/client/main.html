@@ -26,5 +26,7 @@
 </template>
 
 <template name = "images">
-  <img src="{{img_src}}" alt="{{img_alt}}">
+  {{#each images1}}
+    <img src="{{img_src}}" alt="{{img_alt}}">
+  {{/each}}
 </template>
