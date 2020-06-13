@@ -6,7 +6,7 @@ import './main.html';
 console.log("I am the client1")
 
 // Template.images.helpers({image:img_data});
-Template.images.helpers({image:Images.find({}, {sort: {rating:-1}})});  // {}: get hold of all elements
+Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}})});  // {}: get hold of all elements
 
 Template.images.events(
 {
@@ -31,3 +31,23 @@ Template.images.events(
     }
   
 });
+
+Template.image_add_form.events(
+  {
+    'submit .js-add-image':function(event){
+      var img_src, img_alt;
+      img_src = event.target.img_src.value;
+      img_alt = event.target.img_alt.value;
+      console.log("src: "+img_src);
+      console.log("alt: "+img_alt);
+      Images.insert({
+        img_src : img_src,
+        img_alt : img_alt,
+        createdOn : new Date()
+      }
+      );
+      return false; //To override the default browser behavior(here refreshing)
+      
+    }
+  }
+);
