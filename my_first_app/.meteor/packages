@@ -25,3 +25,4 @@ twbs:bootstrap
 barbatus:stars-rating
 accounts-ui
 accounts-password
+thelohoadmin:bootstrap@=3.3.7

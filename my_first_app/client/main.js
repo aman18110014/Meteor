@@ -7,6 +7,14 @@ console.log("I am the client1")
 
 // Template.images.helpers({image:img_data});
 Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}})});  // {}: get hold of all elements
+Template.body.helpers({username:function(){
+  if(Meteor.user()){
+    return Meteor.user().emails[0].address;
+  }
+  else{
+  return "Anonymous";
+  }
+}});  
 
 Template.images.events(
 {
@@ -22,13 +30,17 @@ Template.images.events(
     })
     },
 
-    'click .js-rate-image': function(event){
-      var rating = $(event.currentTarget).data("userrating");
-      console.log(rating);
-      var image_id = this.id;
-      console.log(image_id);
-      Images.update({"_id":image_id}, {$set: {rating:rating}});
-    }
+  'click .js-rate-image': function(event){
+    var rating = $(event.currentTarget).data("userrating");
+    console.log(rating);
+    var image_id = this.id;
+    console.log(image_id);
+    Images.update({"_id":image_id}, {$set: {rating:rating}});
+  },
+
+  'click .js-show-image-form':function(event){
+    $("#image_add_form").modal('show');
+  }
   
 });
 
