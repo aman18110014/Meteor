@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '../imports/api/startup.js';
 import './main.html';
+import { Session } from 'meteor/session';
 
 console.log("I am the client1")
 
@@ -10,7 +11,23 @@ Accounts.ui.config({
 });
 
 // Template.images.helpers({image:img_data});
-Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}}),
+Template.images.helpers({
+  image:function(){
+    if(Session.get("userFilter")){
+      return Images.find({createdBy:Session.get("userFilter")}, {sort: {createdOn:-1, rating:-1}});
+    }
+    else{
+      return Images.find({}, {sort: {createdOn:-1, rating:-1}});
+    }
+  },
+  // image:function(){
+  //   if (true){// they set a filter!
+  //     return Images.find({createdBy:Session.get("userFilter")}, {sort:{createdOn: -1, rating:-1}});         
+  //   }
+  //   else {
+  //     return Images.find({}, {sort:{createdOn: -1, rating:-1}});         
+  //   }
+  // },
   getUser:function(user_id){
     var user = Meteor.users.findOne({_id:user_id});
     if(user){
@@ -55,7 +72,11 @@ Template.images.events(
 
   'click .js-show-image-form':function(event){
     $("#image_add_form").modal('show');
-  }
+  },
+
+  'click .js-set-image-filter':function(event){
+    Session.set("userFilter", this.createdBy);
+},
   
 });
 
