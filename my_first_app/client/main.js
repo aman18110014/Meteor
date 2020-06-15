@@ -5,11 +5,16 @@ import './main.html';
 
 console.log("I am the client1")
 
+Accounts.ui.config({
+  passwordSignupFields: "USERNAME_AND_EMAIL"
+});
+
 // Template.images.helpers({image:img_data});
 Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}})});  // {}: get hold of all elements
 Template.body.helpers({username:function(){
   if(Meteor.user()){
-    return Meteor.user().emails[0].address;
+    return Meteor.user().username;
+    // return Meteor.user().emails[0].address;
   }
   else{
   return "Anonymous";
