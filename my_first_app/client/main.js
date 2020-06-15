@@ -10,7 +10,17 @@ Accounts.ui.config({
 });
 
 // Template.images.helpers({image:img_data});
-Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}})});  // {}: get hold of all elements
+Template.images.helpers({image:Images.find({}, {sort: {createdOn:-1, rating:-1}}),
+  getUser:function(user_id){
+    var user = Meteor.users.findOne({_id:user_id});
+    if(user){
+      return user.username;
+    }
+    else{
+      return "anonymous";
+    }
+  }
+});  // {}: get hold of all elements
 Template.body.helpers({username:function(){
   if(Meteor.user()){
     return Meteor.user().username;
@@ -57,12 +67,15 @@ Template.image_add_form.events(
       img_alt = event.target.img_alt.value;
       console.log("src: "+img_src);
       console.log("alt: "+img_alt);
-      Images.insert({
-        img_src : img_src,
-        img_alt : img_alt,
-        createdOn : new Date()
+      if (Meteor.user()){
+        Images.insert({
+          img_src : img_src,
+          img_alt : img_alt,
+          createdOn : new Date(),
+          createdBy : Meteor.user()._id
+        });
       }
-      );
+      
       return false; //To override the default browser behavior(here refreshing)
       
     }
