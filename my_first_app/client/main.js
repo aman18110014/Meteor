@@ -20,14 +20,23 @@ Template.images.helpers({
       return Images.find({}, {sort: {createdOn:-1, rating:-1}});
     }
   },
-  // image:function(){
-  //   if (true){// they set a filter!
-  //     return Images.find({createdBy:Session.get("userFilter")}, {sort:{createdOn: -1, rating:-1}});         
-  //   }
-  //   else {
-  //     return Images.find({}, {sort:{createdOn: -1, rating:-1}});         
-  //   }
-  // },
+  filtering_images:function(){
+    if(Session.get("userFilter")){
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
+  getUserName:function(){
+    if(Session.get("userFilter")){
+      var user = Meteor.users.findOne({_id:Session.get("userFilter")});
+      return user.username;
+    }
+    else{
+      return false;
+    }
+  },
   getUser:function(user_id){
     var user = Meteor.users.findOne({_id:user_id});
     if(user){
@@ -76,7 +85,11 @@ Template.images.events(
 
   'click .js-set-image-filter':function(event){
     Session.set("userFilter", this.createdBy);
-},
+  },
+
+  'click .js-unset-image-filter':function(){
+    Session.set("userFilter", undefined);
+  }
   
 });
 
