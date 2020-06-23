@@ -33,6 +33,11 @@ Images.allow({
 		}
 	},
 	remove:function(userId, doc){
-		return true;
+		if (Meteor.user()){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 })

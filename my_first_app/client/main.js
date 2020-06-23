@@ -3,8 +3,42 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '../imports/api/startup.js';
 import './main.html';
 import { Session } from 'meteor/session';
+import '../imports/api/collections.js'
 
 console.log("I am the client1")
+
+// routing
+Router.configure({  //mother router
+  layoutTemplate: 'ApplicationLayout'
+});
+
+Router.route('/', function () {
+  this.render('welcome',{ //what to render
+    to:'main' //where to render
+  });
+});
+Router.route('/images', function () {
+  this.render('navbar',{
+    to:'navbar'
+  });
+  this.render('images',{
+    to:'main'
+  });
+});
+Router.route('/image/:_id', function(){
+  this.render('navbar',{
+    to:'navbar'
+  });
+  this.render('image',{
+    to:'main',
+    data:function(){
+      console.log(this.params._id);
+      return Images.findOne({_id:this.params._id}); //for this particular route which parameter comes in
+    }
+  })
+});
+
+//infinite scroll
 Session.set("imageLimit", 8);
 
   lastScrollTop = 0; 
