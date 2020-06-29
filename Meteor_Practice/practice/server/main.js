@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
-import '../imports/api/startup.js';
+// import '../imports/api/startup.js';
+import '../lib/collections.js';
 Meteor.startup(function(){
   if(Images.find().count()==0){
     for(var i=1; i<23; i++){

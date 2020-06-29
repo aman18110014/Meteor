@@ -2,30 +2,77 @@
   <title>practice</title>
 </head>
 
-<body>
-  <h1>Welcome to Meteor!</h1>
-  <div class = "container">
-    {{> pictures}}
-  </div>
+<body class="body">
 </body>
 
-<template name="pictures">
-  <div class = "row">
-    {{#each images}}
-
-    <div class="col-md-3 col-xs-12" id={{_id}}> 
-      <div class = "thumbnail">
-        <img src="{{img_src}}" alt="{{img_alt}}" class="js-image" id="img"/>
-        <div class = "caption">
-          <h3>Thumbnail label</h3>
-          <p>description of the image</p>
-          <button class="js-delete-img btn btn-warning">Delete</button>
-        </div>
-      </div>
-    </div>  <!--end of col -->
-
-    {{/each}}
-  </div>  <!--end of row-->
+<template name="ApplicationLayout">
+  {{>yield "navbar"}}
+  {{>yield "main"}}
 </template>
 
+<template name="heading">
+  <div class="container">
+    <!-- <div class="jumbotron"> -->
+      <h1><center>Showing Photo Album for {{username}}</center>
+        <button class= 'btn btn-success pull-right' id="js-mode">Color mode</button>
+        <p>
+          <br><a href="/images"><center><button class= 'btn btn-info'>Show images</button></center></a>
+        </p>
+      </h1>
+    <!-- </div>   -->
+  </div><br>
+</template>
+
+<template name = "navbar">
+  <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      {{> loginButtons}}
+    </nav>
+  </div>
+</template>
+
+<template name="image_add_form">
+  <div class = "container">
+    {{#if currentUser}}
+      <form class="js-add-img">
+        <input type="text" name="img_src_f" placeholder="Image URL"/><br>
+        <input type="text" name="img_alt_f" placeholder="Image Name"/>
+        <button class="btn btn-info">Save</button>
+      </form>
+    {{/if}}
+  </div>
+</template>
+
+<template name = "image">
+  <div class = "container">
+    <h2>{{img_alt}}</h2>
+    <a href = "/images"><img src = "/{{img_src}}" class = "single_img"/></a>
+  </div>
+</template>
+
+<template name="pictures">
+  <div class="container">
+    {{#if filtering_img}}
+      <h2>Images are filtered by {{getFilteredUser}}<a href="#" class="js-remove-filter"> Show all images</a></h2>
+    {{/if}}
+    <div class = "row">
+      {{#each images}}  <!--array named images also mentioned in helper method-->
+
+      <div class="col-md-3 col-xs-12" id={{_id}}> 
+        <div class = "thumbnail" id=A{{_id}}> <!--look how I defined id to segrate the classes-->
+          <a href="/image/{{_id}}"><img src="{{img_src}}" alt="{{img_alt}}" class="js-image" id="img"/></a>
+          <div class = "caption">
+            <h3>{{img_alt}}</h3>
+            <p>Added by: <a href="#" class="js-set-image-filter">{{getUser createdBy}}</a></p>
+            <p>Rating: {{rating}}</p>
+            {{> starsRating class='js-rating' mutable=true id=_id}}<br>
+            <button class="js-delete-img btn btn-warning">Delete</button>
+          </div>
+        </div>
+      </div>  <!--end of col -->
+
+      {{/each}}
+    </div>  <!--end of row-->
+  </div>
+</template>
 

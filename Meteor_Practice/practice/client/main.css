@@ -1,7 +1,26 @@
 body {
-  padding: 10px;
+  padding: 60px;
   font-family: sans-serif;
+}
+.thumbnail{
+  max-height: 400px;
+  min-height: 400px;
 }
 #img{
   max-height: 150px;
+  min-height: 150px;
 }
+#js-mode{
+  margin-top: -2.5%;
+  
+}
+
+ /* Changes default color.
+.js-rating .current-rating {
+  color: red;
+}
+
+ /* A color that highlights selected stars when user interacts with the control. */
+/* .mystar .active {
+  color: pink;
+} */
